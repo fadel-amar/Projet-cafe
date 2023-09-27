@@ -32,7 +32,7 @@ UC_Gerer_Compte --> UC_MDP
 UC_Gerer_Catalogue --> UC_G_Produit
 UC_Gerer_Catalogue --> UC_G_Cat_Produit
 
-entreprise --> UC_Gerer_Compte
+
 
 
 
