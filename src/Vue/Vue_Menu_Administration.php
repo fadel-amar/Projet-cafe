@@ -4,15 +4,19 @@ use App\Utilitaire\Vue_Composant;
 
 class Vue_Menu_Administration extends Vue_Composant
 {
-    public function __construct( )
-    {           }
+    private string $typeConnexion;
+    public function __construct( string $typeConnexion = "utilisateurCafe")
+    {
+        $this->typeConnexion = $typeConnexion;
+    }
     function donneTexte(): string
     {
-
+        switch ($this->typeConnexion)
+        {
+            case "utilisateurCafe":
                 return "
              <nav id='menu'>
-              <ul id='menu-closed'> 
-                <li><a href='?case=Gerer_utilisateur'>Utilisateurs</a></li>
+              <ul id='menu-closed'>  
                 <li><a href='?case=Gerer_catalogue'>Catalogue</a></li>   
              <li><a href='?case=Gerer_entreprisesPartenaires'>Entreprises partenaires</a></li>
                <li><a href='?case=Gerer_Commande'>Commandes</a></li>
@@ -21,6 +25,20 @@ class Vue_Menu_Administration extends Vue_Composant
                </ul>
             </nav> 
 ";
-              
+                break;
+            case "administrateurLogiciel":
+                return "
+             <nav id='menu'>
+              <ul id='menu-closed'> 
+                <li><a href='?case=Gerer_utilisateur'>Utilisateurs</a></li>          
+                <li><a href='?case=Gerer_monCompte'>Mon compte</a></li> 
+               </ul>
+            </nav> 
+";
+                break;
+
+        }
+
+        return "";
     }
 }

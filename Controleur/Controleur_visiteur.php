@@ -11,6 +11,7 @@ use App\Vue\Vue_Structure_BasDePage;
 use App\Vue\Vue_Structure_Entete;
 
 use PHPMailer\PHPMailer\PHPMailer;
+
 //Ce contrôleur gère le formulaire de connexion pour les visiteurs
 
 $Vue->setEntete(new Vue_Structure_Entete());
@@ -18,7 +19,7 @@ $Vue->setEntete(new Vue_Structure_Entete());
 switch ($action) {
     case "reinitmdpconfirm":
 
-          //comme un qqc qui manque... je dis ça ! je dis rien !
+        //comme un qqc qui manque... je dis ça ! je dis rien !
 
         $Vue->addToCorps(new Vue_Mail_Confirme());
 
@@ -46,11 +47,13 @@ switch ($action) {
                         switch ($utilisateur["idCategorie_utilisateur"]) {
                             case 1:
                                 $_SESSION["typeConnexionBack"] = "administrateurLogiciel"; //Champ inutile, mais bien pour voir ce qu'il se passe avec des étudiants !
-                                $Vue->setMenu(new Vue_Menu_Administration());
+                                $typeConnexion = "administrateurLogiciel";
+                                $Vue->setMenu(new Vue_Menu_Administration($typeConnexion));
                                 break;
                             case 2:
                                 $_SESSION["typeConnexionBack"] = "utilisateurCafe";
-                                $Vue->setMenu(new Vue_Menu_Administration());
+                                $typeConnexion = "utilisateurCafe";
+                                $Vue->setMenu(new Vue_Menu_Administration($typeConnexion));
                                 break;
                             case 3:
                                 $_SESSION["typeConnexionBack"] = "entrepriseCliente";
@@ -88,7 +91,7 @@ switch ($action) {
 
             $Vue->addToCorps(new Vue_Connexion_Formulaire_client($msgError));
         }
-    break;
+        break;
     default:
 
         $Vue->addToCorps(new Vue_Connexion_Formulaire_client());
