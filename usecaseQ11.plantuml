@@ -1,13 +1,12 @@
 @startuml
-
 usecase (gérer compte) as UC_Gerer_Compte
 usecase (gérer compte utilisateur) as UC_Gerer_Compte_Utilisateur
-usecase (gérer catalogue) as UC_Gerer_Catalogue
-usecase (gérer entreprise cliente) as UC_Gerer_Entreprise
+usecase (gérer catalogueue) as UC_Gerer_catalogueue
+usecase (gérer Entreprise cliente) as UC_Gerer_Entreprise
 usecase (gérer commande) as UC_Gerer_Commande
-usecase (gérer personnes habilités) as UC_Gerer_personnes_habilités
-usecase (consulter info) as UC_Consulter_infos
-usecase (consulter catalogue) as UC_Consulter_catalog
+usecase (gérer personnes apte) as UC_Gerer_personnes_apte
+usecase (consulter informations) as UC_Consulter_informationss
+usecase (consulter catalogueue) as UC_Consulter_catalogue
 usecase (consulter panier) as UC_Panier
 usecase (Modifier mon mot de passe) as UC_MDP
 usecase (gérer produit) as UC_G_Produit
@@ -16,37 +15,55 @@ usecase (gérer Consulter Commande) as UC_Consulter_Commande
 
 
 
+
+
+
 actor :administrateur du logiciel: as admin
-actor :utilisateur Cafe: as userCafe
-actor :entreprise cliente: as entreprise
-actor :salarié entreprise cliente: as salarie
+actor :Rédacteur: as Rédacteur
+actor :Entreprise cliente: as Entreprise
+actor :salarié Entreprise cliente: as Salarie
+actor :Commercial: as Commercial
+
+
 
 
 admin --> UC_Gerer_Compte
-admin --> UC_Gerer_Catalogue
-admin --> UC_Gerer_Entreprise
-admin --> UC_Gerer_Commande
 admin --> UC_Gerer_Compte_Utilisateur
 
 
-userCafe --> UC_Gerer_Compte
-userCafe --> UC_Gerer_Catalogue
-userCafe --> UC_Gerer_Entreprise
-userCafe --> UC_Gerer_Commande
-userCafe --> UC_Gerer_Compte_Utilisateur
 
-entreprise --> UC_Gerer_Compte
-entreprise --> UC_Gerer_personnes_habilités
-entreprise --> UC_Consulter_infos
 
-salarie --> UC_Consulter_catalog
-salarie --> UC_Gerer_Compte
-salarie --> UC_Panier
-salarie --> UC_Consulter_Commande
+
+
+
+Salarie --> UC_Consulter_catalogue
+Salarie --> UC_Gerer_Compte
+Salarie --> UC_Panier
+Salarie --> UC_Consulter_Commande
+
+
+Rédacteur --> UC_Gerer_Compte
+Rédacteur --> UC_Gerer_catalogueue
+
+Commercial --> UC_Gerer_Compte
+Commercial --> UC_Gerer_Entreprise
+Commercial --> UC_Gerer_Commande
+
+
+Entreprise --> UC_Gerer_Compte
+Entreprise --> UC_Gerer_personnes_apte
+Entreprise --> UC_Consulter_informationss
+
+
+
+
 
 UC_Gerer_Compte --> UC_MDP
-UC_Gerer_Catalogue --> UC_G_Produit
-UC_Gerer_Catalogue --> UC_G_Cat_Produit
+UC_Gerer_catalogueue --> UC_G_Produit
+UC_Gerer_catalogueue --> UC_G_Cat_Produit
+
 
 @enduml
+
+
 
