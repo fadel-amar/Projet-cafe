@@ -1,7 +1,7 @@
 <?php
 namespace App\Vue;
 use App\Utilitaire\Vue_Composant;
-
+// Question 13
 class Vue_Menu_Administration extends Vue_Composant
 {
     private string $typeConnexion;
