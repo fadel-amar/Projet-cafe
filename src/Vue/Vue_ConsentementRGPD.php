@@ -6,9 +6,10 @@ use App\Utilitaire\Vue_Composant;
 class Vue_ConsentementRGPD extends Vue_Composant
 {
     private string $msgErreur;
-    public function __construct(string $msgErreur ="")
+    public function __construct(string $msgErreur ="", string $case = "Gérer_Entreprise")
     {
         $this->msgErreur=$msgErreur;
+        $this->case = $case;
     }
 
     function donneTexte(): string
@@ -68,10 +69,30 @@ Rue la Transparence
 
 (NB : si vous n’avez pas de DPO, indiquez des coordonnées précises où exercer ces droits dans l’entreprise).
 
-Si vous estimez, après avoir contacté la société ABCD, que vos droits « Informatique et Libertés » ne sont pas respectés, vous pouvez adresser une réclamation en ligne à la CNIL.
+Si vous estimez, après avoir contacté la société ABCD, que vos droits « Informatique et Libertés » ne sont pas respectés, vous pouvez adresser une réclamation en ligne à la CNIL.</br>
 
-";
-        //je crois avoir oublié la fin de la page...
+    
+<form style='display: contents'>
+        
+    <table style='display: inline-block'> 
+
+        <input type='hidden' name='case' value='$this->case'>
+
+        
+        <tr>
+            <td>
+                <button type='submit' name= 'action' value='AccepterRGPD'> Accepter </button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type='submit' name= 'action' value='RefuserRGPD'> Refuser </button>
+            </td>
+        </tr>
+    </table>
+
+</form>";
+
         return $str;
     }
 }

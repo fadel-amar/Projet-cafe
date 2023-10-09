@@ -51,9 +51,14 @@ switch ($action) {
                                 $Vue->setMenu(new Vue_Menu_Administration($typeConnexion));
                                 break;
                             case 2:
-                                $_SESSION["typeConnexionBack"] = "utilisateurCafe";
-                                $typeConnexion = "utilisateurCafe";
-                                $Vue->setMenu(new Vue_Menu_Administration($typeConnexion));
+                                if($utilisateur['aAccepteRGPD']){
+                                    $_SESSION["typeConnexionBack"] = "utilisateurCafe";
+                                    $typeConnexion = "utilisateurCafe";
+                                    $Vue->setMenu(new Vue_Menu_Administration($typeConnexion));
+                                    break;
+                                } else {
+                                    include "./Controleur/Controleur_AccepterRGPD.php";
+                                }
                                 break;
                             case 3:
                                 $_SESSION["typeConnexionBack"] = "entrepriseCliente";
