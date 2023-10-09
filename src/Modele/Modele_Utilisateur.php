@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Modele;
+
 use App\Utilitaire\Singleton_ConnexionPDO;
 use PDO;
 
@@ -87,7 +88,7 @@ class Modele_Utilisateur
         $requetePreparee->bindParam('paramlogin', $login);
         $requetePreparee->bindParam('paramidCategorie_utilisateur', $codeCategorie);
         $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
-        if($reponse != false) {
+        if ($reponse != false) {
             $idUtilisateur = $connexionPDO->lastInsertId();
             $desactiver = 0;
             self::Utilisateur_Modifier_Desactivation($idUtilisateur, $desactiver);
@@ -125,7 +126,7 @@ class Modele_Utilisateur
         $connexionPDO = Singleton_ConnexionPDO::getInstance();
 
         $requetePreparee = $connexionPDO->prepare(
-'UPDATE `utilisateur`
+            'UPDATE `utilisateur`
 SET `login`= :paramlogin, `idCategorie_utilisateur`= :paramidCategorie_utilisateur
 WHERE idUtilisateur = :paramidUtilisateur');
         $requetePreparee->bindParam('paramlogin', $login);
@@ -164,7 +165,7 @@ WHERE idUtilisateur = :paramidUtilisateur');
 
     {
         $connexionPDO = Singleton_ConnexionPDO::getInstance();
-         $requetePreparee = $connexionPDO->prepare(
+        $requetePreparee = $connexionPDO->prepare(
             'UPDATE `utilisateur` 
 SET motDePasse = :parammotDePasse
 WHERE idUtilisateur = :paramidUtilisateur');
@@ -191,6 +192,17 @@ SET motDePasse = :parammotDePasse ');
         $requetePreparee->bindParam('parammotDePasse', $motDePasse);
         $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
         return $reponse;
+    }
+
+    static function UpdateRgpdUser($iduser) {
+        $connexionPDO = Singleton_ConnexionPDO::getInstance();
+
+        $requetePreparee = $connexionPDO->prepare(
+            'UPDATE `utilisateur` SET aAccepteRGPD = 1 WHERE idUtilisateur = :paramidUser');
+        $requetePreparee->bindParam('paramidUser', $idUtilisateur);
+        $reponse = $requetePreparee->execute();
+        return $reponse;
+
     }
 
 }

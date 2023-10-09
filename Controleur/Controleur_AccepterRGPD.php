@@ -12,6 +12,7 @@ use App\Vue\Vue_Structure_Entete;
 use App\Vue\Vue_ConsentementRGPD;
 
 
+
 switch ($action) {
     case 'Se connecter';
         $Vue->setEntete(new Vue_Structure_Entete());
@@ -20,7 +21,9 @@ switch ($action) {
         break;
     case 'AccepterRGPD':
         // DB update --> à faire !
+        Modele_Utilisateur::UpdateRgpdUser($_SESSION["idUtilisateur"]);
         $Vue->setEntete(new Vue_Structure_Entete());
+
 
         break;
     case 'RefuserRGPD':
