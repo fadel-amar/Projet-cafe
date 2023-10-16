@@ -28,10 +28,16 @@ switch ($action) {
             //on vérifie si le mot de passe de la BDD est le même que celui rentré
             if ($_REQUEST["NouveauPassword"] == $_REQUEST["ConfirmPassword"]) {
                 //Utilisateur_Modifier_motDePasse(  $_SESSION["idEntreprise"], $_REQUEST["NouveauPassword"] );
-                $Vue->setMenu(new Vue_Menu_Entreprise_Client());
-                $Vue->addToCorps(new Vue_Entreprise_Gerer_Compte());
-                // Dans ce cas les mots de passe sont bons, il est donc modifié
-                $Vue->addToCorps(new Vue_AfficherMessage("<label><b>Votre mot de passe a bien été modifié</b></label>"));
+                if ( \App\Fonctions\calculComplexiteMdp( $_REQUEST['NouveauPassword']) >= 90) {
+                    $Vue->setMenu(new Vue_Menu_Entreprise_Client());
+                    $Vue->addToCorps(new Vue_Entreprise_Gerer_Compte());
+                    // Dans ce cas les mots de passe sont bons, il est donc modifié
+                    $Vue->addToCorps(new Vue_AfficherMessage("<label><b>Votre mot de passe a bien été modifié</b></label>"));
+                } else {
+                    $Vue->setEntete(new Vue_Structure_Entete());
+                    $Vue->addToCorps(new Vue_Utilisateur_Changement_MDP("<label><b>La complexité du mot de passe est faible, utilisé des caractères spéciaux et des alphanumériques</b></label>", "Gerer_monCompte"));
+                }
+
             } else {
                 $Vue->addToCorps(new Vue_Utilisateur_Changement_MDP());
                 $Vue->addToCorps(new Vue_AfficherMessage("<label><b>Les nouveaux mots de passe ne sont pas identiques</b></label>"));
