@@ -1,17 +1,21 @@
 <?php
-namespace App\Fonctions;
-    function Redirect_Self_URL():void{
-        unset($_REQUEST);
-        header("Location: ".$_SERVER['PHP_SELF']);
-        exit;
-    }
 
-function GenereMDP($nbChar) :string{
+namespace App\Fonctions;
+function Redirect_Self_URL(): void
+{
+    unset($_REQUEST);
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+}
+
+function GenereMDP($nbChar): string
+{
 
     return "secret";
 }
 
-function calculComplexiteMdp($mdp): int {
+function calculComplexiteMdp($mdp): int
+{
     $Minuscules = false;
     $Majuscule = false;
     $Caracteres = false;
@@ -22,7 +26,7 @@ function calculComplexiteMdp($mdp): int {
     $tabcarcateres = ['!', '#', '$', '%', '*', '%', '?'];
     $tabcarcateresPlus = ['#', '$', '*', '%', '?', '&', '[', '|', ']', '@', '^', 'µ', '§', ':', '/', ';', '.', ',', '<', '>', '°'];
 
-    for ($i = 0; $i < strlen($mdp)  ; $i++) {
+    for ($i = 0; $i < strlen($mdp); $i++) {
         if (in_array($mdp[$i], $tabminiscules)) {
             $Minuscules = true;
         } elseif (in_array($mdp[$i], $tabmajuscules)) {
@@ -46,10 +50,55 @@ function calculComplexiteMdp($mdp): int {
         $possibilite += count($tabcarcateres);
     }
 
-    $complexite = Log($possibilite**strlen($mdp))/ Log(2);
+    $complexite = Log($possibilite ** strlen($mdp)) / Log(2);
 
 
-
-    return $complexite+1;
+    return $complexite + 1;
 
 }
+
+function genererMDP($nbChar) {
+    $chaine = "ABCDEFGHIJKLMONOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&é'(-è_çà)=$^*ù!:;,~#{[|`\^@]}¤€";
+    $pass = '';
+    $len = strlen($chaine);
+    for ($i = 0; $i < $nbChar; $i++) {
+        $rnd = random_int(0,$len-1);
+        $char = $chaine[$rnd];
+        $pass .= $char;
+    }
+    return mb_convert_encoding($pass,"UTF-8");
+}
+
+
+function reinitmdp($to)
+{
+
+    $entetes = [
+        "from" => "no-reply-Cafe@cafe.fr",
+        "content-type" => "text/html; charset=utf-8"
+    ];
+    $mdp = genererMDP(15);
+    $message = "Voici votre nouveau mot de passe : " . $mdp;
+
+    if (updateMdp($to,$mdp,1)) {
+        if (mail($to, 'renouvellement mot de passe', $message, $entetes)) {
+            return true;
+        }
+    }
+
+}
+
+
+function updateMdp($email, $mdp, $typeUser) {
+    $pdo = \App\Utilitaire\Singleton_ConnexionPDO::getInstance();
+    $requetePreparee = $pdo->prepare(
+        "UPDATE utilisateur
+        SET motDePasse= :mdp, doitChangerMdp = 1
+        WHERE login = :email");
+    $requetePreparee->bindParam('email', $email);
+    $requetePreparee->bindParam('mdp', $mdp);
+    $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
+    return $reponse;
+
+}
+
