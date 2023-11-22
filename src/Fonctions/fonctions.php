@@ -11,7 +11,7 @@ function Redirect_Self_URL(): void
 function GenereMDP($nbChar): string
 {
 
-    return "secret";
+    return "informations";
 }
 
 function calculComplexiteMdp($mdp): int
@@ -80,7 +80,7 @@ function reinitmdp($to)
     $mdp = genererMDP(15);
     $message = "Voici votre nouveau mot de passe : " . $mdp;
 
-    if (updateMdp($to,$mdp,1)) {
+    if (updateMdp($to,$mdp)) {
         if (mail($to, 'renouvellement mot de passe', $message, $entetes)) {
             return true;
         }
@@ -89,7 +89,7 @@ function reinitmdp($to)
 }
 
 
-function updateMdp($email, $mdp, $typeUser) {
+function updateMdp($email, $mdp) {
     $pdo = \App\Utilitaire\Singleton_ConnexionPDO::getInstance();
     $requetePreparee = $pdo->prepare(
         "UPDATE utilisateur

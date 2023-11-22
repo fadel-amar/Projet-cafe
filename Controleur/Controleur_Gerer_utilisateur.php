@@ -38,9 +38,16 @@ switch ($action) {
         break;
     case "réinitialiserMDPUtilisateur":
         //Réinitialiser MDP sur la fiche de l'entreprise
-        $Utilisateur = Modele_Utilisateur::Utilisateur_Select_ParId($_REQUEST["idUtilisateur"]);
-        Modele_Utilisateur::Utilisateur_Modifier_motDePasse($_REQUEST["idUtilisateur"], "secret"); //$Utilisateur["idUtilisateur"]
-
+        $idCatUserCible = $_REQUEST["codeCategorie"];
+        $idCible = $_REQUEST["idUtilisateur"];
+        $typeUser = $_SESSION['idCategorie_utilisateur'];
+        if ($typeUser == 1 && $idCatUserCible == 2 || $typeUser == 2 && $idCatUserCible == 3 || $typeUser == 3 && $idCatUserCible == 4) {
+            $Utilisateur = Modele_Utilisateur::Utilisateur_Select_ParId($idCible);
+            $login = $Utilisateur['login'];
+            \App\Fonctions\reinitmdp($login);
+        } else {
+            break;
+        }
         $listeUtilisateur = Modele_Utilisateur:: Utilisateur_Select_Cafe();
         $Vue->addToCorps(new Vue_Utilisateur_Liste($listeUtilisateur));
 

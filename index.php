@@ -41,6 +41,13 @@ if (isset($_REQUEST["action"]))
     $action = $_REQUEST["action"];
 else
     $action = "Action_Par_Defaut";
+
+    $user = \App\Modele\Modele_Utilisateur::Utilisateur_Select_ParId($_SESSION["idUtilisateur"]);
+/*    if ($user['doitChangerMdp'] == 1 ) {
+        case "changerMDP";
+    }*/
+
+
 //error_log("action : " . $action);
 //utiliser en débuggage pour avoir le type de connexion
 //$Vue->addToCorps(new Vue_AfficherMessage("<br>Action $action<br>"));

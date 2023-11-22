@@ -19,8 +19,6 @@ $Vue->setEntete(new Vue_Structure_Entete());
 switch ($action) {
     case "reinitmdpconfirm":
 
-
-
         //comme un qqc qui manque... je dis ça ! je dis rien !
         if(\App\Fonctions\reinitmdp($_POST['email'])) {
             header("Location:index.php");
