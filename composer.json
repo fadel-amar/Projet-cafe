@@ -32,6 +32,8 @@
     "symfony/var-dumper": "^6.3",
     "phpunit/phpunit": "^10.4",
     "phpmailer/phpmailer": "^6.6"
+  },
+  "scripts": {
+    "S": "php -S localhost:1245"
   }
-
 }

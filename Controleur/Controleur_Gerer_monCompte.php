@@ -2,6 +2,7 @@
 
 
 use App\Modele\Modele_Utilisateur;
+use App\Vue\Vue_changer_mdp;
 use App\Vue\Vue_Compte_Administration_Gerer;
 use App\Vue\Vue_Connexion_Formulaire_client;
 use App\Vue\Vue_Menu_Administration;
@@ -11,6 +12,35 @@ use App\Vue\Vue_Utilisateur_Changement_MDP;
 
 
 switch ($action) {
+
+    case "DoitchangerMdp" :
+        $Vue->setEntete(new Vue_Structure_Entete());
+        $Vue->addToCorps(new \App\Vue\Vue_changer_mdp("", "DoitchangerMdp"));
+
+        break;
+    case "submitNewMdp":
+        if ($_REQUEST["mdp1"] == $_REQUEST["mdp2"]) {
+            if (\App\Fonctions\calculComplexiteMdp($_REQUEST['mdp1']) >= 90) {
+                $user = Modele_Utilisateur::Utilisateur_Select_ParId($_SESSION["idUtilisateur"]);
+                $login = $user["login"];
+                if (\App\Fonctions\updateMdp($login, $_REQUEST['mdp1'])){
+                    session_destroy();
+                    header( "index.php");
+                };
+
+            } else {
+                $Vue->setEntete(new Vue_Structure_Entete());
+                $Vue->setMenu(new Vue_Menu_Administration($typeConnexion));
+                $Vue->addToCorps(new Vue_changer_mdp("<label><b>La complexité du mot de passe est faible, utilisé des caractères spéciaux et des alphanumériques</b></label>", "Gerer_monCompte"));
+            }
+        } else {
+            $Vue->setEntete(new Vue_Structure_Entete());
+            $Vue->setMenu(new Vue_Menu_Administration($typeConnexion));
+            $Vue->addToCorps(new Vue_changer_mdp("<label><b>Les nouveaux mots de passe ne sont pas identiques</b></label>", "Gerer_monCompte"));
+        }
+        break;
+
+
     case "changerMDP":
         //Il a cliqué sur changer Mot de passe. Cas pas fini
         $Vue->setEntete(new Vue_Structure_Entete());

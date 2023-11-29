@@ -93,7 +93,7 @@ function updateMdp($email, $mdp) {
     $pdo = \App\Utilitaire\Singleton_ConnexionPDO::getInstance();
     $requetePreparee = $pdo->prepare(
         "UPDATE utilisateur
-        SET motDePasse= :mdp, doitChangerMdp = 1
+        SET motDePasse= :mdp, doitChangerMdp = 0
         WHERE login = :email");
     $requetePreparee->bindParam('email', $email);
     $requetePreparee->bindParam('mdp', $mdp);

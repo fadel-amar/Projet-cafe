@@ -42,10 +42,18 @@ if (isset($_REQUEST["action"]))
 else
     $action = "Action_Par_Defaut";
 
+if (isset($_SESSION["idUtilisateur"])) {
     $user = \App\Modele\Modele_Utilisateur::Utilisateur_Select_ParId($_SESSION["idUtilisateur"]);
-/*    if ($user['doitChangerMdp'] == 1 ) {
-        case "changerMDP";
-    }*/
+    if ($user['doitChangerMdp'] == 1) {
+        $typeConnexion = "DoitchangerMdp";
+        if ($action != "submitNewMdp") {
+            $action = "DoitchangerMdp";
+        }
+    }
+
+}
+
+
 
 
 //error_log("action : " . $action);
@@ -53,6 +61,9 @@ else
 //$Vue->addToCorps(new Vue_AfficherMessage("<br>Action $action<br>"));
 
 switch ($typeConnexion) {
+    case "DoitchangerMdp":
+        include "Controleur/Controleur_Gerer_monCompte.php";
+        break;
     case "visiteur" :
         include "Controleur/Controleur_visiteur.php";
         break;
