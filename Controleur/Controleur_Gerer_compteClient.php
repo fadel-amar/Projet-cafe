@@ -28,7 +28,7 @@ switch ($action) {
             //on vérifie si le mot de passe de la BDD est le même que celui rentré
             if ($_REQUEST["NouveauPassword"] == $_REQUEST["ConfirmPassword"]) {
                 //Utilisateur_Modifier_motDePasse(  $_SESSION["idEntreprise"], $_REQUEST["NouveauPassword"] );
-                if ( \App\Fonctions\calculComplexiteMdp( $_REQUEST['NouveauPassword']) >= 90) {
+                if ( \App\Fonctions\calculComplexiteMdp( $_REQUEST['NouveauPassword']) >= 60) {
                     $Vue->setMenu(new Vue_Menu_Entreprise_Client());
                     $Vue->addToCorps(new Vue_Entreprise_Gerer_Compte());
                     // Dans ce cas les mots de passe sont bons, il est donc modifié

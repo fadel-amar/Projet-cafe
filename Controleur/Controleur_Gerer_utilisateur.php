@@ -44,7 +44,9 @@ switch ($action) {
         if ($typeUser == 1 && $idCatUserCible == 2 || $typeUser == 2 && $idCatUserCible == 3 || $typeUser == 3 && $idCatUserCible == 4) {
             $Utilisateur = Modele_Utilisateur::Utilisateur_Select_ParId($idCible);
             $login = $Utilisateur['login'];
-            \App\Fonctions\reinitmdp($login);
+            if(\App\Fonctions\reinitmdp($login)) {
+                \App\Fonctions\updateDoitChanger($login);
+            }
         } else {
             break;
         }

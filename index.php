@@ -55,7 +55,6 @@ if (isset($_SESSION["idUtilisateur"])) {
 
 
 
-
 //error_log("action : " . $action);
 //utiliser en débuggage pour avoir le type de connexion
 //$Vue->addToCorps(new Vue_AfficherMessage("<br>Action $action<br>"));

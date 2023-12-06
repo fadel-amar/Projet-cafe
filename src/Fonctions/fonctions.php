@@ -57,16 +57,17 @@ function calculComplexiteMdp($mdp): int
 
 }
 
-function genererMDP($nbChar) {
+function genererMDP($nbChar)
+{
     $chaine = "ABCDEFGHIJKLMONOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&é'(-è_çà)=$^*ù!:;,~#{[|`\^@]}¤€";
     $pass = '';
     $len = strlen($chaine);
     for ($i = 0; $i < $nbChar; $i++) {
-        $rnd = random_int(0,$len-1);
+        $rnd = random_int(0, $len - 1);
         $char = $chaine[$rnd];
         $pass .= $char;
     }
-    return mb_convert_encoding($pass,"UTF-8");
+    return mb_convert_encoding($pass, "UTF-8");
 }
 
 
@@ -80,7 +81,7 @@ function reinitmdp($to)
     $mdp = genererMDP(15);
     $message = "Voici votre nouveau mot de passe : " . $mdp;
 
-    if (updateMdp($to,$mdp)) {
+    if (updateMdp($to, $mdp)) {
         if (mail($to, 'renouvellement mot de passe', $message, $entetes)) {
             return true;
         }
@@ -89,7 +90,8 @@ function reinitmdp($to)
 }
 
 
-function updateMdp($email, $mdp) {
+function updateMdp($email, $mdp)
+{
     $pdo = \App\Utilitaire\Singleton_ConnexionPDO::getInstance();
     $requetePreparee = $pdo->prepare(
         "UPDATE utilisateur
@@ -97,6 +99,19 @@ function updateMdp($email, $mdp) {
         WHERE login = :email");
     $requetePreparee->bindParam('email', $email);
     $requetePreparee->bindParam('mdp', $mdp);
+    $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
+    return $reponse;
+
+}
+
+function updateDoitChanger($email)
+{
+    $pdo = \App\Utilitaire\Singleton_ConnexionPDO::getInstance();
+    $requetePreparee = $pdo->prepare(
+        "UPDATE utilisateur
+        SET  doitChangerMdp = 1
+        WHERE login = :email");
+    $requetePreparee->bindParam('email', $email);
     $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
     return $reponse;
 

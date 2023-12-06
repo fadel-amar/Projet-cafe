@@ -20,12 +20,12 @@ switch ($action) {
         break;
     case "submitNewMdp":
         if ($_REQUEST["mdp1"] == $_REQUEST["mdp2"]) {
-            if (\App\Fonctions\calculComplexiteMdp($_REQUEST['mdp1']) >= 90) {
+            if (\App\Fonctions\calculComplexiteMdp($_REQUEST['mdp1']) >= 70) {
                 $user = Modele_Utilisateur::Utilisateur_Select_ParId($_SESSION["idUtilisateur"]);
                 $login = $user["login"];
-                if (\App\Fonctions\updateMdp($login, $_REQUEST['mdp1'])){
+                if (\App\Fonctions\updateMdp($login, $_REQUEST['mdp1'])) {
                     session_destroy();
-                    header( "index.php");
+                    header("index.php");
                 };
 
             } else {
@@ -50,11 +50,10 @@ switch ($action) {
     case "submitModifMDP":
         //il faut récuperer le mdp en BDD et vérifier qu'ils sont identiques
         $utilisateur = Modele_Utilisateur::Utilisateur_Select_ParId($_SESSION["idUtilisateur"]);
-        if ($_REQUEST["AncienPassword"] == $utilisateur["motDePasse"])
-        {
+        if ($_REQUEST["AncienPassword"] == $utilisateur["motDePasse"]) {
             //on vérifie si le mot de passe de la BDD est le même que celui rentré
             if ($_REQUEST["NouveauPassword"] == $_REQUEST["ConfirmPassword"]) {
-                if ( \App\Fonctions\calculComplexiteMdp( $_REQUEST['NouveauPassword']) >= 90) {
+                if (\App\Fonctions\calculComplexiteMdp($_REQUEST['NouveauPassword']) >= 90) {
                     $Vue->setEntete(new Vue_Structure_Entete());
                     $Vue->setMenu(new Vue_Menu_Administration($typeConnexion));
                     Modele_Utilisateur::Utilisateur_Modifier_motDePasse($_SESSION["idUtilisateur"], $_REQUEST["NouveauPassword"]);
