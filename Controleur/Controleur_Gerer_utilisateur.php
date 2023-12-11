@@ -8,6 +8,7 @@ use App\Vue\Vue_Structure_BasDePage;
 use App\Vue\Vue_Structure_Entete;
 use App\Vue\Vue_Utilisateur_Formulaire;
 use App\Vue\Vue_Utilisateur_Liste;
+use function App\Fonctions\reinitmdpToken;
 
 $Vue->setEntete(new Vue_Structure_Entete());
 
@@ -41,12 +42,14 @@ switch ($action) {
         $idCatUserCible = $_REQUEST["codeCategorie"];
         $idCible = $_REQUEST["idUtilisateur"];
         $typeUser = $_SESSION['idCategorie_utilisateur'];
+
         if ($typeUser == 1 && $idCatUserCible == 2 || $typeUser == 2 && $idCatUserCible == 3 || $typeUser == 3 && $idCatUserCible == 4) {
             $Utilisateur = Modele_Utilisateur::Utilisateur_Select_ParId($idCible);
             $login = $Utilisateur['login'];
-            if(\App\Fonctions\reinitmdp($login)) {
-                \App\Fonctions\updateDoitChanger($login);
-            }
+    /*        if(reinitmdpToken($login, $idCible, new \DateTime() , $_SERVER['REMOTE_ADDR'])) {
+
+                  \App\Fonctions\updateDoitChanger($login);
+            }*/
         } else {
             break;
         }

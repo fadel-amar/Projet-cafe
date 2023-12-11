@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Fonctions;
+use App\Modele\Modele_Jeton;
+
 function Redirect_Self_URL(): void
 {
     unset($_REQUEST);
@@ -114,31 +116,30 @@ function updateDoitChanger($email)
     $requetePreparee->bindParam('email', $email);
     $reponse = $requetePreparee->execute(); //$reponse boolean sur l'état de la requête
     return $reponse;
+
 }
 
-function genererToken(){
-    $octetsAleatoires = openssl_random_pseudo_bytes (256) ;
+function genererToken()
+{
+    $octetsAleatoires = openssl_random_pseudo_bytes(256);
     $jeton = sodium_bin2base64($octetsAleatoires, SODIUM_BASE64_VARIANT_ORIGINAL);
     return $jeton;
 }
 
-echo genererToken();
 
-function reinitmdpToken(){
 
+/*function reinitmdpToken($to,$idUser, $dateFin , $ip) {
     $token = genererToken();
     $entetes = [
         "from" => "no-reply-Cafe@cafe.fr",
         "content-type" => "text/html; charset=utf-8"
     ];
-    $message = "Veuillez cliquez ce lien pour changer votre mot de pass " ?> <a href="index.php?token=<?$token?>"></a>;
+    $message = " Veuillez cliquer ce lien pour changer votre mot de passe : <a href='http://localhost:8000/index.php?token=$token'</a> Cliquez ici";
 
-
-
-
-
-
+    if (mail($to, 'renouvellement mot de passe', $message, $entetes)) {
+       Modele_Jeton::Jeton_Creer($token,$idUser,  $dateFin, $ip);
+        return true;
+    }
 }
-
-
+*/
 

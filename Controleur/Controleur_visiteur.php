@@ -4,6 +4,7 @@ use App\Modele\Modele_Entreprise;
 use App\Modele\Modele_Salarie;
 use App\Modele\Modele_Utilisateur;
 use App\Vue\Vue_Connexion_Formulaire_client;
+use App\Vue\Vue_Mail_ChoisirNouveauMdp;
 use App\Vue\Vue_Mail_Confirme;
 use App\Vue\Vue_Mail_ReinitMdp;
 use App\Vue\Vue_Menu_Administration;
@@ -17,6 +18,38 @@ use PHPMailer\PHPMailer\PHPMailer;
 $Vue->setEntete(new Vue_Structure_Entete());
 
 switch ($action) {
+
+    case "reinitMdpToken":
+        $Vue->addToCorps(new Vue_Mail_ChoisirNouveauMdp("confirmMDPToken", $_GET["token"], ""));
+        break;
+
+    case "confirmMDPToken":
+        if (isset($_GET["token"])) {
+            $token = $_GET["token"];
+        }
+        if (isset($_POST["token"])) {
+            $token = $_POST["token"];
+        }
+        if ($_POST["NouveauPassword"] != $_POST["ConfirmPassword"]) {
+            $Vue->setEntete(new Vue_Structure_Entete());
+            $Vue->addToCorps(new Vue_Mail_ChoisirNouveauMdp(
+                "confirmMDPToken", $token, "Les mots de passe ne correspondent pas !!!"));
+        } else {
+            if ($_POST["mdp1"] == $_POST["mdp2"]) {
+                if (\App\Fonctions\calculComplexite($_POST["NouveauPassword"]) >= 90) {
+                    Modele_Utilisateur::Utilisateur_Modifier_motDePasse($_SESSION["idUtilisateur"], $_POST["NouveauPassword"]);
+                    MDPUserChange($_SESSION["idUtilisateur"]);
+                    $Vue->setEntete(new Vue_Structure_Entete());
+                    $Vue->addToCorps(new Vue_Connexion_Formulaire_client());
+                    // Dans ce cas les mots de passe sont bons, il est donc modifié
+                } else {
+                    $Vue->setEntete(new Vue_Structure_Entete());
+                    $Vue->addToCorps(new Vue_Mail_ChoisirNouveauMdp("confirmMDPToken", $token, "Le mot de passe est trop simple"));
+                }
+            }
+        }
+        break;
+
     case "reinitmdpconfirm":
 
         //comme un qqc qui manque... je dis ça ! je dis rien !
