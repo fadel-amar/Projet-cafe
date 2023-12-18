@@ -199,10 +199,12 @@ SET motDePasse = :parammotDePasse ');
 
         $requetePreparee = $connexionPDO->prepare(
             'UPDATE `utilisateur` SET aAccepteRGPD = 1 WHERE idUtilisateur = :paramidUser');
-        $requetePreparee->bindParam('paramidUser', $idUtilisateur);
+        $requetePreparee->bindParam('paramidUser', $iduser);
         $reponse = $requetePreparee->execute();
         return $reponse;
 
     }
+
+
 
 }

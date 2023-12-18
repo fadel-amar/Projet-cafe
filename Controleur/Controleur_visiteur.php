@@ -53,10 +53,9 @@ switch ($action) {
     case "reinitmdpconfirm":
 
         //comme un qqc qui manque... je dis ça ! je dis rien !
-        if(\App\Fonctions\reinitmdp($_POST['email'])) {
+        if (\App\Fonctions\reinitmdp($_POST['email'])) {
             header("Location:index.php");
         }
-
 
 
         $Vue->addToCorps(new Vue_Mail_Confirme());
@@ -89,14 +88,11 @@ switch ($action) {
                                 $Vue->setMenu(new Vue_Menu_Administration($typeConnexion));
                                 break;
                             case 2:
-                                if($utilisateur['aAccepteRGPD']){
-                                    $_SESSION["typeConnexionBack"] = "utilisateurCafe";
-                                    $typeConnexion = "utilisateurCafe";
-                                    $Vue->setMenu(new Vue_Menu_Administration($typeConnexion));
-                                    break;
-                                } else {
-                                    include "./Controleur/Controleur_AccepterRGPD.php";
-                                }
+
+                                $_SESSION["typeConnexionBack"] = "utilisateurCafe";
+                                $Vue->setMenu(new Vue_Menu_Administration());
+                                break;
+
                                 break;
                             case 3:
                                 $_SESSION["typeConnexionBack"] = "entrepriseCliente";

@@ -128,7 +128,7 @@ function genererToken()
 
 
 
-/*function reinitmdpToken($to,$idUser, $dateFin , $ip) {
+function reinitmdpToken($to,$idUser, $dateFin , $ip) {
     $token = genererToken();
     $entetes = [
         "from" => "no-reply-Cafe@cafe.fr",
@@ -141,5 +141,5 @@ function genererToken()
         return true;
     }
 }
-*/
+
 
