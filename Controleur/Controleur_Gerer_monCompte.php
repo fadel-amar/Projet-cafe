@@ -12,6 +12,14 @@ use App\Vue\Vue_Utilisateur_Changement_MDP;
 
 
 switch ($action) {
+    case "droitOpposition":
+        Modele_Utilisateur::UpdateRenoncerRGPD($_SESSION['idUtilisateur']);
+        session_destroy();
+        unset($_SESSION);
+        $Vue->setEntete(new Vue_Structure_Entete());
+        $Vue->addToCorps(new Vue_Connexion_Formulaire_client());
+        break;
+
 
     case "DoitchangerMdp" :
         $Vue->setEntete(new Vue_Structure_Entete());
