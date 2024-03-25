@@ -19,18 +19,25 @@ switch ($action) {
         $VueConsentement = (new Vue_ConsentementRGPD());
         $Vue->addToCorps($VueConsentement);
         break;
-    case 'AccepterRGPD':
-        // DB update --> à faire !
-        Modele_Utilisateur::UpdateRgpdUser($_SESSION["idUtilisateur"]);
+
+    case "AccepterRGPD":
         $Vue->setEntete(new Vue_Structure_Entete());
-
-
+        \App\Modele\Modele_Utilisateur::UpdateRgpdUser($_SESSION["idUtilisateur"]);
+        if ($typeConnexion == "utilisateurCafe") {
+            $Vue->setMenu(new Vue_Menu_Administration($_SESSION["typeConnexionBack"]));
+        }
         break;
-    case 'RefuserRGPD':
+
+
+
+    case "SeDeconnecter":
         session_destroy();
-        unset($_SESSION["idEntreprise"]);
+        unset($_SESSION);
         $Vue->setEntete(new Vue_Structure_Entete());
         $Vue->addToCorps(new Vue_Connexion_Formulaire_client());
+        break;
+
+
 
 
 }

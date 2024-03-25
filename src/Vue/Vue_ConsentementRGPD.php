@@ -6,7 +6,7 @@ use App\Utilitaire\Vue_Composant;
 class Vue_ConsentementRGPD extends Vue_Composant
 {
     private string $msgErreur;
-    public function __construct(string $msgErreur ="", string $case = "Gérer_Entreprise")
+    public function __construct(string $msgErreur ="", string $case = "Gerer_Entreprise")
     {
         $this->msgErreur=$msgErreur;
         $this->case = $case;
@@ -86,7 +86,7 @@ Si vous estimez, après avoir contacté la société ABCD, que vos droits « Inf
         </tr>
         <tr>
             <td>
-                <button type='submit' name= 'action' value='RefuserRGPD'> Refuser </button>
+                <button type='submit' name= 'action' value='SeDeconnecter'> Refuser </button>
             </td>
         </tr>
     </table>
